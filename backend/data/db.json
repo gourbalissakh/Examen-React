@@ -1,0 +1,102 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "gourbal",
+      "password": "passer123",
+      "email": "gourbalissakh@gmail.com",
+      "nom": "Mahamat Issakh",
+      "prenom": "Gourbal"
+    },
+    {
+      "id": 2,
+      "username": "mariam",
+      "password": "mariam123",
+      "email": "mariam@gmail.com",
+      "nom": "Issakh",
+      "prenom": "Mahamat"
+    },
+    {
+      "id": 3,
+      "username": "gourbalissakh",
+      "password": "Passer123@",
+      "email": "mahamatissakhgourbal@gmail.com",
+      "nom": "MAHAMAT ISSAKH",
+      "prenom": "GOURBAL"
+    }
+  ],
+  "matieres": [
+    {
+      "id": 1,
+      "nom": "Programmation Web",
+      "couleur": "#3498db"
+    },
+    {
+      "id": 2,
+      "nom": "Base de données",
+      "couleur": "#e74c3c"
+    },
+    {
+      "id": 3,
+      "nom": "Algorithmique",
+      "couleur": "#2ecc71"
+    },
+    {
+      "id": 4,
+      "nom": "Réseaux",
+      "couleur": "#9b59b6"
+    },
+    {
+      "id": 5,
+      "nom": "Systèmes d'exploitation",
+      "couleur": "#f39c12"
+    }
+  ],
+  "taches": [
+    {
+      "id": 6,
+      "titre": "QCM de Mathematique",
+      "description": "Aucune description pour cette partie.",
+      "type": "devoir",
+      "matiereId": 3,
+      "userId": 1,
+      "priorite": "Moyenne",
+      "statut": "En cours",
+      "dateCreation": "2026-02-20",
+      "deadline": "2026-02-28"
+    },
+    {
+      "id": 7,
+      "titre": "QCM de Mathematique",
+      "description": "Teste de A a Z pour la préparation pour le devoir de Mathématique ",
+      "type": "devoir",
+      "matiereId": 3,
+      "userId": 1,
+      "priorite": "Haute",
+      "statut": "a_faire",
+      "dateCreation": "2026-02-21"
+    },
+    {
+      "id": 8,
+      "titre": "TP Programmation Web Dynamique ",
+      "description": "Il s'agit du dernier TP pour le module. ",
+      "type": "devoir",
+      "matiereId": 1,
+      "userId": 1,
+      "priorite": "Haute",
+      "statut": "a_faire",
+      "dateCreation": "2026-02-21"
+    },
+    {
+      "id": 9,
+      "titre": "TP Programmation Web Dynamique ",
+      "description": "Faite le TP ",
+      "type": "devoir",
+      "matiereId": 1,
+      "userId": 3,
+      "priorite": "Haute",
+      "statut": "a_faire",
+      "dateCreation": "2026-02-21"
+    }
+  ]
+}
