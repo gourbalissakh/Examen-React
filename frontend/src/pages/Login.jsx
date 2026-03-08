@@ -21,7 +21,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const Login = () => {
-    const [formData, setFormData] = useState({ email: '', password: '' })
+    const [formData, setFormData] = useState({ username: '', password: '' })
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
@@ -42,13 +42,13 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (!formData.email || !formData.password) {
+        if (!formData.username || !formData.password) {
             setError('Veuillez remplir tous les champs')
             return
         }
         setLoading(true)
         setError('')
-        const result = await login(formData.email, formData.password)
+        const result = await login(formData.username, formData.password)
         if (!result.success) {
             setError(result.message || 'Identifiants incorrects')
         }
@@ -220,28 +220,28 @@ const Login = () => {
 
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium text-slate-300">
-                                    Adresse email
+                                    Nom d'utilisateur
                                 </label>
                                 <div
-                                    className={`relative transition-all ${focusedField === 'email' ? 'transform scale-[1.02]' : ''}`}
+                                    className={`relative transition-all ${focusedField === 'username' ? 'transform scale-[1.02]' : ''}`}
                                 >
                                     <div
-                                        className={`absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl blur opacity-0 transition-opacity ${focusedField === 'email' ? 'opacity-20' : ''}`}
+                                        className={`absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl blur opacity-0 transition-opacity ${focusedField === 'username' ? 'opacity-20' : ''}`}
                                     />
                                     <div className="relative">
                                         <Mail
-                                            className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${focusedField === 'email' ? 'text-blue-400' : 'text-slate-500'}`}
+                                            className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${focusedField === 'username' ? 'text-blue-400' : 'text-slate-500'}`}
                                         />
                                         <input
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
+                                            type="text"
+                                            name="username"
+                                            value={formData.username}
                                             onChange={handleChange}
                                             onFocus={() =>
-                                                setFocusedField('email')
+                                                setFocusedField('username')
                                             }
                                             onBlur={() => setFocusedField(null)}
-                                            placeholder="vous@exemple.com"
+                                            placeholder="votre_nom_utilisateur"
                                             disabled={loading}
                                             className="w-full px-4 py-3.5 pl-12 bg-slate-800/50 border border-slate-700/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:bg-slate-800 transition-all"
                                         />

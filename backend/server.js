@@ -87,7 +87,9 @@ app.post('/api/auth/login', (req, res) => {
         res.status(401).json({
             success: false,
             message: 'Identifiants incorrects',
+
         })
+        console.log(`Échec de connexion pour l'utilisateur: ${username}`)
     }
 })
 

@@ -47,6 +47,22 @@
       "email": "gourbalissakh50@gmail.com",
       "nom": "MAHAMAT ISSAKH",
       "prenom": "Gourbal"
+    },
+    {
+      "id": 7,
+      "username": "gourbalissa",
+      "password": "Passer123@",
+      "email": "gourbalissak@gmail.com",
+      "nom": "MAHAMAT ISSAKH",
+      "prenom": "Gourbal"
+    },
+    {
+      "id": 8,
+      "username": "gourbalis",
+      "password": "passer123@",
+      "email": "gourbaliss@gmail.com",
+      "nom": "MAHAMAT ISSAKH",
+      "prenom": "Gourbal"
     }
   ],
   "matieres": [
@@ -132,6 +148,18 @@
       "priorite": "Basse",
       "statut": "a_faire",
       "dateCreation": "2026-03-08"
+    },
+    {
+      "id": 11,
+      "titre": "TP Programmation Web Dynamique ",
+      "description": "Premier TP du matiere  devellepement Web ",
+      "type": "devoir",
+      "matiereId": 1,
+      "userId": 7,
+      "priorite": "Moyenne",
+      "statut": "À faire",
+      "dateCreation": "2026-03-08",
+      "deadline": "2026-03-20"
     }
   ]
 }
