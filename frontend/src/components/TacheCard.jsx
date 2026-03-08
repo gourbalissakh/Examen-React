@@ -27,6 +27,31 @@ const TacheCard = ({ tache, compact = false }) => {
     const [isDeleting, setIsDeleting] = useState(false)
     const [showStatusMenu, setShowStatusMenu] = useState(false)
 
+    // Fonction pour normaliser le statut (supporte les 2 formats)
+    const normaliserStatut = (statut) => {
+        if (!statut) return 'a_faire'
+        const s = statut.toLowerCase().trim()
+        if (s === 'à faire' || s === 'a_faire' || s === 'a faire')
+            return 'a_faire'
+        if (s === 'en cours' || s === 'en_cours') return 'en_cours'
+        if (s === 'terminé' || s === 'termine' || s === 'terminer')
+            return 'termine'
+        return 'a_faire'
+    }
+
+    // Fonction pour normaliser la priorité (supporte les 2 formats)
+    const normaliserPriorite = (priorite) => {
+        if (!priorite) return 'moyenne'
+        const p = priorite.toLowerCase().trim()
+        if (p === 'haute' || p === 'high') return 'haute'
+        if (p === 'moyenne' || p === 'medium' || p === 'moyen') return 'moyenne'
+        if (p === 'basse' || p === 'low' || p === 'bas') return 'basse'
+        return 'moyenne'
+    }
+
+    const statutNormalise = normaliserStatut(tache.statut)
+    const prioriteNormalisee = normaliserPriorite(tache.priorite)
+
     const types = {
         devoir: {
             label: 'Devoir',
@@ -85,18 +110,25 @@ const TacheCard = ({ tache, compact = false }) => {
     }
 
     const joursRestants = () => {
+        // Supporte les deux formats: deadline et dateEcheance
+        const dateEcheance = tache.deadline || tache.dateEcheance
+        if (!dateEcheance) return null
+
         const aujourdhui = new Date()
         aujourdhui.setHours(0, 0, 0, 0)
-        const echeance = new Date(tache.dateEcheance)
+        const echeance = new Date(dateEcheance)
         echeance.setHours(0, 0, 0, 0)
         return Math.ceil((echeance - aujourdhui) / (1000 * 60 * 60 * 24))
     }
 
     const jours = joursRestants()
-    const estEnRetard = jours < 0 && tache.statut !== 'termine'
-    const estUrgent = jours >= 0 && jours <= 2 && tache.statut !== 'termine'
+    const aUneDate = jours !== null
+    const estEnRetard = aUneDate && jours < 0 && statutNormalise !== 'termine'
+    const estUrgent =
+        aUneDate && jours >= 0 && jours <= 2 && statutNormalise !== 'termine'
     const TypeIcon = types[tache.type]?.icon || FileText
-    const StatusIcon = statuts[tache.statut]?.icon || Circle
+    const StatusIcon = statuts[statutNormalise]?.icon || Circle
+    const dateEcheance = tache.deadline || tache.dateEcheance
 
     // Version compact pour les listes urgentes
     if (compact) {
@@ -116,7 +148,7 @@ const TacheCard = ({ tache, compact = false }) => {
                     <div className="min-w-0">
                         <h4
                             className={`font-medium text-white truncate ${
-                                tache.statut === 'termine'
+                                statutNormalise === 'termine'
                                     ? 'line-through text-slate-500'
                                     : ''
                             }`}
@@ -125,29 +157,33 @@ const TacheCard = ({ tache, compact = false }) => {
                         </h4>
                         <div className="flex items-center gap-2 text-xs text-slate-400">
                             <span>{getNomMatiere(tache.matiereId)}</span>
-                            <span>•</span>
-                            <span
-                                className={
-                                    estEnRetard
-                                        ? 'text-red-400 font-medium'
-                                        : ''
-                                }
-                            >
-                                {jours === 0
-                                    ? "Aujourd'hui"
-                                    : jours === 1
-                                      ? 'Demain'
-                                      : jours > 0
-                                        ? `${jours}j`
-                                        : `${Math.abs(jours)}j retard`}
-                            </span>
+                            {aUneDate && (
+                                <>
+                                    <span>•</span>
+                                    <span
+                                        className={
+                                            estEnRetard
+                                                ? 'text-red-400 font-medium'
+                                                : ''
+                                        }
+                                    >
+                                        {jours === 0
+                                            ? "Aujourd'hui"
+                                            : jours === 1
+                                              ? 'Demain'
+                                              : jours > 0
+                                                ? `${jours}j`
+                                                : `${Math.abs(jours)}j retard`}
+                                    </span>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
                 <div
-                    className={`px-2 py-1 rounded-md text-xs font-medium ${statuts[tache.statut]?.class}`}
+                    className={`px-2 py-1 rounded-md text-xs font-medium ${statuts[statutNormalise]?.class}`}
                 >
-                    {statuts[tache.statut]?.label}
+                    {statuts[statutNormalise]?.label}
                 </div>
             </div>
         )
@@ -157,7 +193,7 @@ const TacheCard = ({ tache, compact = false }) => {
         <div
             className={`card overflow-hidden transition-all ${
                 isDeleting ? 'opacity-50 scale-95' : 'hover:border-slate-600'
-            } ${tache.statut === 'termine' ? 'opacity-75' : ''}`}
+            } ${statutNormalise === 'termine' ? 'opacity-75' : ''}`}
         >
             {/* Barre couleur matière */}
             <div
@@ -204,7 +240,7 @@ const TacheCard = ({ tache, compact = false }) => {
                 {/* Titre */}
                 <h3
                     className={`font-semibold text-white mb-2 line-clamp-2 ${
-                        tache.statut === 'termine'
+                        statutNormalise === 'termine'
                             ? 'line-through text-slate-500'
                             : ''
                     }`}
@@ -222,20 +258,22 @@ const TacheCard = ({ tache, compact = false }) => {
                 {/* Meta */}
                 <div className="flex items-center gap-3 mb-4 text-sm">
                     <span
-                        className={`px-2 py-0.5 rounded text-xs font-medium ${priorites[tache.priorite]?.class}`}
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${priorites[prioriteNormalisee]?.class}`}
                     >
-                        {priorites[tache.priorite]?.label}
+                        {priorites[prioriteNormalisee]?.label}
                     </span>
-                    <span
-                        className={`flex items-center gap-1 ${estEnRetard ? 'text-red-400' : 'text-slate-400'}`}
-                    >
-                        <Calendar className="w-3.5 h-3.5" />
-                        {new Date(tache.dateEcheance).toLocaleDateString(
-                            'fr-FR',
-                            { day: 'numeric', month: 'short' },
-                        )}
-                    </span>
-                    {tache.statut !== 'termine' && (
+                    {dateEcheance && (
+                        <span
+                            className={`flex items-center gap-1 ${estEnRetard ? 'text-red-400' : 'text-slate-400'}`}
+                        >
+                            <Calendar className="w-3.5 h-3.5" />
+                            {new Date(dateEcheance).toLocaleDateString(
+                                'fr-FR',
+                                { day: 'numeric', month: 'short' },
+                            )}
+                        </span>
+                    )}
+                    {aUneDate && statutNormalise !== 'termine' && (
                         <span
                             className={`flex items-center gap-1 text-xs ${
                                 estEnRetard
@@ -263,27 +301,28 @@ const TacheCard = ({ tache, compact = false }) => {
                     <div className="relative">
                         <button
                             onClick={() => setShowStatusMenu(!showStatusMenu)}
-                            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${statuts[tache.statut]?.class}`}
+                            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${statuts[statutNormalise]?.class}`}
                         >
                             <StatusIcon className="w-4 h-4" />
-                            {statuts[tache.statut]?.label}
+                            {statuts[statutNormalise]?.label}
                             <ChevronDown
                                 className={`w-3 h-3 transition-transform ${showStatusMenu ? 'rotate-180' : ''}`}
                             />
                         </button>
 
                         {showStatusMenu && (
-                            <div className="absolute left-0 top-full mt-1 py-1 bg-slate-800 rounded-lg shadow-lg border border-slate-700 z-10 min-w-[130px]">
+                            <div className="absolute left-0 bottom-full mb-1 py-1 bg-slate-800 rounded-lg shadow-xl border border-slate-700 z-50 min-w-[140px]">
                                 {Object.entries(statuts).map(
                                     ([key, { label, icon: Icon }]) => (
                                         <button
                                             key={key}
-                                            onClick={() =>
+                                            onClick={(e) => {
+                                                e.stopPropagation()
                                                 handleStatutChange(key)
-                                            }
-                                            className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-slate-700 transition-colors ${
-                                                tache.statut === key
-                                                    ? 'text-blue-400 font-medium'
+                                            }}
+                                            className={`w-full flex items-center gap-2 px-3 py-2.5 text-sm hover:bg-slate-700 transition-colors cursor-pointer ${
+                                                statutNormalise === key
+                                                    ? 'text-blue-400 font-medium bg-slate-700/50'
                                                     : 'text-slate-300'
                                             }`}
                                         >

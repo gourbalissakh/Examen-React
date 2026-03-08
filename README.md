@@ -180,7 +180,7 @@ L'application s'adapte à toutes les tailles d'écran :
 
 ## 👨‍💻 Auteur
 
-**Étudiant L3 Informatique** - 2025-2026
+**Gourbal Mahamat Issakh** - 2025-2026
 
 ## 📄 Licence
 

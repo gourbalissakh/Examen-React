@@ -23,6 +23,30 @@
       "email": "mahamatissakhgourbal@gmail.com",
       "nom": "MAHAMAT ISSAKH",
       "prenom": "GOURBAL"
+    },
+    {
+      "id": 4,
+      "username": "terdanos",
+      "password": "Passer123@",
+      "email": "terda@gmail.com",
+      "nom": "Idriss",
+      "prenom": "Djamal"
+    },
+    {
+      "id": 5,
+      "username": " fatoungom@gmail.com",
+      "password": "Passer123@",
+      "email": "fatoungom@gmail.com",
+      "nom": "Ngom",
+      "prenom": "Fatou"
+    },
+    {
+      "id": 6,
+      "username": "gourbalissakh1",
+      "password": "passer123@",
+      "email": "gourbalissakh50@gmail.com",
+      "nom": "MAHAMAT ISSAKH",
+      "prenom": "Gourbal"
     }
   ],
   "matieres": [
@@ -97,6 +121,17 @@
       "priorite": "Haute",
       "statut": "a_faire",
       "dateCreation": "2026-02-21"
+    },
+    {
+      "id": 10,
+      "titre": "TP Programmation Web Dynamique ",
+      "description": "Premier TP ",
+      "type": "devoir",
+      "matiereId": 2,
+      "userId": 6,
+      "priorite": "Basse",
+      "statut": "a_faire",
+      "dateCreation": "2026-03-08"
     }
   ]
 }
